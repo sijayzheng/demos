@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="themes/default/easyui.css" />
+		<script src="jquery.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="jquery.easyui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="md5.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<form id="loginform" class="easyui-form">
+			<input type="text" name="loginName" id="loginName" value="3144" data-options="required:true" />
+			<input type="password" name="password" id="password" value="19891095" data-options="required:true" />
+			<a href="javascript:;" class="easyui-linkbutton" onclick="login()">登录</a>
+		</form>
+		<script type="text/javascript">
+			var flag = false
+
+			function login() {
+				$.ajax({
+					url: 'http://60.208.80.55:8081/WPTMS/login.action',
+					type: 'post',
+					dataType: 'json',
+					data: {
+						password: hex_md5(hex_md5($('#password').val())),
+						ssoflag: 'no',
+						loginName: $('#loginName').val(),
+						passwordA: ''
+					},
+					success: function(res) {
+						$.ajax({
+							url: 'http://60.208.80.55:8081/WPTMS/zbzxmxAction.action',
+							type: 'post',
+							dataType: 'json',
+							data: {
+								operateFlag: 'list'
+							},
+							success: function(res) {
+								flag = res.messageFlag === 'success'
+								console.log(res);
+							}
+						})
+					}
+				})
+
+			}
+
+			function xx() {
+				$.ajax({
+					url: 'http://60.208.80.55:8081/WPTMS/login.action',
+					type: 'post',
+					dataType: 'json',
+					data: {
+
+					},
+					success: function(res) {
+						console.log(res);
+					}
+				})
+			}
+		</script>
+		登录
+		http://60.208.80.55:8081/WPTMS/login.action
+
+
+
+		项目类型
+		http://60.208.80.55:8081/WPTMS/selectAction.action?operateFlag=selectxmlx&_=1624883555618
+
+
+		所属项目
+		http://60.208.80.55:8081/WPTMS/cszdAction.action?operateFlag=getxmzd&xmlx=RJXM&_=1624883555618
+
+		工作类型
+		http://60.208.80.55:8081/WPTMS/cszdAction.action?operateFlag=getGzlxByXmid&xmid=1606961504690000070&_=1624883555618
+
+		保存
+		http://60.208.80.55:8081/WPTMS/zbzxmxAction.action?operateFlag=save&sjts=5&sjnr=%25E6%25A0%25B9%25E6%258D%25AE%25E8%25A6%2581%25E6%25B1%2582%25E8%25BF%259B%25E8%25A1%258C%25E4%25BF%25AE%25E6%2594%25B9&xmid=1606961504690000070&gzlxbh=2015_KF_XTBM&_=1624883949154
+
+		查询刚写的周报
+		http://60.208.80.55:8081/WPTMS/zbzxmxAction.action?operateFlag=list
+
+		提交
+		http://60.208.80.55:8081//WPTMS/zblrAction.action?operateFlag=commit&_=1624883555618
+
+	</body>
+</html>
